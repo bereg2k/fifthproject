@@ -32,7 +32,10 @@ public class Base {
 
         printTextFile(file); //printing of the text file provided
 
-        Set<String> wordsUnique = new TreeSet<>(); //collection for all the unique words in the file
+        //comparator to ignore case while forming unique words list
+        Comparator<String> comparator = String::compareToIgnoreCase;
+
+        Set<String> wordsUnique = new TreeSet<>(comparator); //collection for all the unique words in the file
         Map<String, Integer> wordsQuantity = new HashMap<>(); //collection "word-quantity" in the file
 
         findUniqueWordsAndQuantity(file, wordsUnique, wordsQuantity);
