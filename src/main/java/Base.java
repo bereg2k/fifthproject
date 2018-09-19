@@ -35,10 +35,13 @@ public class Base {
         //comparator to ignore case while forming unique words list
         Comparator<String> comparator = String::compareToIgnoreCase;
 
-        Set<String> wordsUnique = new TreeSet<>(comparator); //collection for all the unique words in the file
+        List<String> wordsUnique = new ArrayList<>(); //collection for all the unique words in the file
         Map<String, Integer> wordsQuantity = new HashMap<>(); //collection "word-quantity" in the file
 
         findUniqueWordsAndQuantity(file, wordsUnique, wordsQuantity);
+
+        wordsUnique.sort(comparator); //sorting all the words in the list
+        removeDuplicatesFromTheList(wordsUnique); //removing all the duplicates to form a unique words list
 
         System.out.println("\nHere's the list with all the unique words used in the file (in alphabet order): ");
         System.out.println(wordsUnique);
@@ -110,7 +113,7 @@ public class Base {
      * @param words        collection for sorted unique words
      * @param quantity     collection "word-quantity"
      */
-    private static void findUniqueWordsAndQuantity(File textFilePath, Set<String> words, Map<String, Integer> quantity)
+    private static void findUniqueWordsAndQuantity(File textFilePath, List<String> words, Map<String, Integer> quantity)
             throws FileNotFoundException {
         Scanner scanner = new Scanner(textFilePath); //new buffer variable for file's contents
         while (scanner.hasNext()) {
@@ -123,5 +126,21 @@ public class Base {
             words.add(word); // collecting unique words in the file in sorted order
         }
         scanner.close();
+    }
+
+    /**
+     * This method removes string duplicates from the List collections
+     * @param words a string array/list
+     */
+    private static void removeDuplicatesFromTheList(List<String> words) {
+        for (int i = 0; i < words.size(); i++) {
+            String nextWord = words.get(i);
+            for (int j = 0; j < words.size(); j++) {
+                if (i != j && nextWord.equals(words.get(j))) {
+                    words.remove(j);
+                    j = 0;
+                }
+            }
+        }
     }
 }
